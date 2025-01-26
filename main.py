@@ -9,47 +9,6 @@ import tabulate
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
-def visualize_routes(node_coords, routes, depot, title="Маршруты"):
-    """
-    Визуализирует маршруты на графике.
-
-    :param node_coords: Словарь с координатами узлов {id: (x, y)}.
-    :param routes: Список маршрутов, где каждый маршрут — это список узлов.
-    :param depot: ID депо.
-    :param title: Заголовок графика.
-    """
-    # Создаем график
-    plt.figure(figsize=(10, 8))
-
-    # Цвета для маршрутов
-    colors = list(mcolors.TABLEAU_COLORS.values())
-
-    # Рисуем узлы
-    for node_id, (x, y) in node_coords.items():
-        if node_id == depot:
-            plt.plot(x, y, 'ks', markersize=10, label='Депо')  # Депо — черный квадрат
-        else:
-            plt.plot(x, y, 'o', color='blue', markersize=8, label='Клиент' if node_id == 1 else "")
-
-    # Рисуем маршруты
-    for i, route in enumerate(routes):
-        if not route:
-            continue
-        color = colors[i % len(colors)]  # Циклически используем цвета
-        # Добавляем депо в начало и конец маршрута
-        full_route = [depot] + route + [depot]
-        x_coords = [node_coords[node][0] for node in full_route]
-        y_coords = [node_coords[node][1] for node in full_route]
-        plt.plot(x_coords, y_coords, '--', color=color, linewidth=2, label=f"Маршрут {i+1}")
-
-    # Настройки графика
-    plt.title(title)
-    plt.xlabel("Координата X")
-    plt.ylabel("Координата Y")
-    plt.grid(True)
-    plt.legend(loc="upper right")
-    plt.show()
-
 
 def read_optimal_cost(sol_file_path):
     with open(sol_file_path, 'r') as file:
